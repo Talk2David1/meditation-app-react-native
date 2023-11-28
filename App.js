@@ -9,16 +9,21 @@ export default function App() {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
  const validationSchema = Yup.object().shape({
-  name: Yup.string().required('Name is required'),
-  email: Yup.string().email('Email is not valid').required('Email is required'),
+  name: Yup.string()
+  .min(5, 'Too Short!')
+  .max(50, 'Too Long!')
+  .required('Please Input Your Full Name'),
+  email: Yup.string()
+  .email('Email is not valid')
+  .required('Email is required'),
   password: Yup.string()
-    .required('Password is required')
-    .min(6, 'Password must be at least 6 characters long')
+    .required('Please Enter Your Password ')
+    .min(6)
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})$/,
-      'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character'
-    )
-})
+      'Password must be at least 6 characters long, must contain at least one lowercase letter, one uppercase letter, one number, and one special character'
+    ),
+});
 
 
   const handleSubmit = async (values) => {
@@ -30,35 +35,59 @@ export default function App() {
     <Formik      
       initialValues={{ name: '', email: '', password: '' }}
       validationSchema={validationSchema}      
+      validateOnChange={true}
       onSubmit={handleSubmit}
     >
-      {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
+      {({ handleChange, isValid, handleSubmit, values, errors, setFieldTouched, touched }) => (
+        <View>
         <View>
           <TextInput
             name="name"
             placeholder="Name"
-            onChangeText={handleChange('name')}
-            onBlur={handleBlur('name')}
+            onChangeText={handleChange('name')}                      
+            onBlur={() => setFieldTouched('name')}
             value={values.name}
             error={errors.name}
           />
+         {/* Displaying error message */}
+          {touched.name && errors.name && (
+            <Text style={styles.errorTxt}>{errors.name}</Text>
+          )}
+        </View>
+
+        <View>
           <TextInput
             name="email"
             placeholder="Email"
-            onChangeText={handleChange('email')}
-            onBlur={handleBlur('email')}
+            onChangeText={handleChange('email')}      
+            onBlur={() => setFieldTouched('email')}
+            autoCapitalize='none' 
             value={values.email}
             error={errors.email}
           />
+           {/* Displaying error message */}
+           {touched.email && errors.email && (
+            <Text style={styles.errorTxt}>{errors.email}</Text>
+          )}
+        </View>
+
+        <View>
           <TextInput
             name="password"
             placeholder="Password"
             secureTextEntry={!passwordVisible}
             onChangeText={handleChange('password')}
-            onBlur={handleBlur('password')}
+            autoCapitalize='none'
+            onBlur={() => setFieldTouched('password')}
             value={values.password}
             error={errors.password}
           />
+          {/* Displaying error message */}
+          {touched.password && errors.password && (
+            <Text style={styles.errorTxt}>{errors.password}</Text>
+          )}
+        </View>
+
           <Ionicons
             name={passwordVisible ? 'eye-off' : 'eye'}
             size={24}
@@ -67,7 +96,9 @@ export default function App() {
           <Button
             title="Get Started"
             onPress={handleSubmit}
-            disabled={!values.name || !values.email || !values.password || Boolean(errors.name) || Boolean(errors.email) || Boolean(errors.password)}
+            // disabled={!values.name || !values.email || !values.password || Boolean(errors.name) || Boolean(errors.email) || Boolean(errors.password)}
+            disabled={isValid}
+            style={[styles.Button, {backgroundColor: isValid ? '#395B64' : '#A5C9CA'}]}
           />
         </View>
       )}
@@ -83,5 +114,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  errorTxt: {
+    color: 'red',
   },
 });
