@@ -4,13 +4,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import HeadBg from './component/HeadBg';
+import { CheckBox } from '@rneui/themed';
 
 
 const screenWidth = Dimensions.get('window').width;
 
 export default function App() {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [checked, setChecked] = useState(true);
+  const toggleCheckbox = () => setChecked(!checked);
+ 
 
  const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -25,7 +28,7 @@ export default function App() {
     .min(6)
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})$/,
-      'Password must be at least 6 characters long, must contain at least one lowercase letter, one uppercase letter, one number, and one special character'
+      'Password must be at least 6 characters long, must contain at least one lowercase letter, one uppercase letter, one number, and one special character',
     ),
 });
 
@@ -37,8 +40,8 @@ export default function App() {
   return (    
     <SafeAreaView  style={styles.container}>
 
-    <Text  style={styles.text}>Create Your Account!</Text>  
-
+    <Text style={styles.text}>Create Your Account!</Text>  
+    
     <View>
     <Image
       source={require('./assets/img/facebook.png')}
@@ -65,7 +68,7 @@ export default function App() {
       {({ handleChange, isValid, handleSubmit, values, errors, setFieldTouched, touched }) => (
         <View>
 
-        <View>
+        <View  style={styles.formContainer}>
 
         <View>
           <TextInput
@@ -81,7 +84,8 @@ export default function App() {
          {touched.name && errors.name ? (
           <Text style={styles.errorTxt}>{errors.name}</Text>
         ) : (
-          <Ionicons
+          <Ionicons          
+            style={styles.eyeIcon}
             name="checkmark"
             size={24}
             color={touched.name && !errors.name ? "green" : "transparent"}
@@ -104,7 +108,8 @@ export default function App() {
            {touched.email && errors.email ? (
             <Text style={styles.errorTxt}>{errors.email}</Text>
           ) : (
-            <Ionicons
+            <Ionicons            
+            style={styles.eyeIcon}
               name="checkmark"
               size={24}
               color={
@@ -114,7 +119,7 @@ export default function App() {
           )}
         </View>
 
-        <View style={styles.textInput}>
+        <View>
           <TextInput            
             name="password"
             placeholder="Password"
@@ -133,13 +138,25 @@ export default function App() {
 
           <TouchableOpacity>
           <Ionicons
+            style={styles.eyeIcon}
             name={passwordVisible ? 'eye-off' : 'eye'}
             size={24}
             onPress={() => setPasswordVisible(!passwordVisible)}
           />
           </TouchableOpacity>
           </View>
+  
 
+          <View style={styles.check}>
+          <Text>I have read the Privace Policy </Text>
+            <CheckBox
+            checked={!checked}
+            onPress={toggleCheckbox}
+            iconType="material-community"
+            checkedIcon="checkbox-outline"
+            uncheckedIcon={'checkbox-blank-outline'}
+          />
+          </View>
           </View>
 
           <TouchableOpacity
@@ -165,14 +182,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   input: {
-    backgroundColor: '#F8F8FF',
-    borderColor: '#F8F8FF',
+    height: 50,
+    margin: 12,
     borderWidth: 1,
-    borderRadius: 10,
     padding: 10,
+    borderColor: '#F8F8FF',
+    backgroundColor: '#F8F8FF',
+    borderRadius: 10,
     width: '100%',
-    paddingHorizontal: 100,
-    textAlign: 'left',
   },
   errorTxt: {
     color: 'red',
@@ -207,9 +224,21 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 15,
   },
-textInput: {
-  flexDirection: 'row',  
+  formContainer: {  
   width: screenWidth * 0.9,
   marginBottom: 20,
-}
+  textAlign: "left"
+},
+check: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+},
+eyeIcon: {
+  position: 'absolute',
+  left: '90%',
+  bottom: 32,
+  height: 20,
+  width: 30,
+},
 });
