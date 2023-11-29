@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Button, Image, TextInput, Text, View, SafeAreaView, } from 'react-native';
+import { StyleSheet, Dimensions, Button, Image, TextInput, Text, View, SafeAreaView, TouchableOpacity, } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import HeadBg from './component/HeadBg';
 
+
+const screenWidth = Dimensions.get('window').width;
 
 export default function App() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -40,14 +42,14 @@ export default function App() {
     <View>
     <Image
       source={require('./assets/img/facebook.png')}
-      style={styles.facebook }
+      style={styles.social }
     />
   </View>
 
     <View>
     <Image
       source={require('./assets/img/google.png')}
-      style={styles.facebook }
+      style={styles.social }
     />
   </View>
 
@@ -62,6 +64,9 @@ export default function App() {
     >
       {({ handleChange, isValid, handleSubmit, values, errors, setFieldTouched, touched }) => (
         <View>
+
+        <View>
+
         <View>
           <TextInput
             name="name"
@@ -109,8 +114,8 @@ export default function App() {
           )}
         </View>
 
-        <View>
-          <TextInput
+        <View style={styles.textInput}>
+          <TextInput            
             name="password"
             placeholder="Password"
             secureTextEntry={!passwordVisible}
@@ -126,18 +131,24 @@ export default function App() {
             <Text style={styles.errorTxt}>{errors.password}</Text>
           )}      
 
+          <TouchableOpacity>
           <Ionicons
             name={passwordVisible ? 'eye-off' : 'eye'}
             size={24}
             onPress={() => setPasswordVisible(!passwordVisible)}
           />
+          </TouchableOpacity>
           </View>
-          <Button
-            title="Get Started"
+
+          </View>
+
+          <TouchableOpacity
             onPress={handleSubmit}
             disabled={isValid}
-            style={[styles.Button, {backgroundColor: isValid ? '#8E97FD' : '#A5C9CA'}]}
-          />
+            style={[styles.button, { backgroundColor: isValid ? '#8E97FD' : '#F2F3F7' }]}
+          >
+          <Text style={styles.buttonText}>GET STARTED</Text>
+        </TouchableOpacity>
         </View>
       )}
     </Formik>
@@ -162,7 +173,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 100,
     textAlign: 'left',
-    alignItems: 'left',
   },
   errorTxt: {
     color: 'red',
@@ -171,12 +181,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontWeight: 'bold',
     fontSize: 20,
+    marginBottom: 30,
   },
   email: {
     alignItems: 'center',
     fontWeight: 'bold',
     fontSize: 15,
-    color: 'gray'
+    color: 'gray',
+    marginBottom: 15,
+  },  
+  social: {
+    alignItems: 'center',
+    marginBottom: 20, 
+    width: screenWidth * 0.9,
+    borderRadius: 38,   
   },
-  
+  button: {
+    width: screenWidth * 0.9,
+    padding: 17,
+    borderRadius: 38,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 15,
+  },
+textInput: {
+  flexDirection: 'row',  
+  width: screenWidth * 0.9,
+  marginBottom: 20,
+}
 });
