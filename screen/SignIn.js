@@ -12,7 +12,7 @@ const dismissKeyboard = () => {
   Keyboard.dismiss();
 };
 
-const SignIn = () => {
+const SignIn = ({navigation}) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [checked, setChecked] = useState(true);
   
@@ -139,7 +139,8 @@ const SignIn = () => {
 
           <View style={styles.signUpQuestion}>
           <Text style={styles.miniBodyText}>ALREADY HAVE AN ACCOUNT?</Text>
-          <Text style={styles.signUp}> SIGN UP</Text>
+          <Text style={styles.signUp}          
+    onPress={() => navigation.navigate("SignUp")}> SIGN UP</Text>
           </View>
         </View>
       )}
