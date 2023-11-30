@@ -9,7 +9,7 @@ import { CheckBox } from '@rneui/themed';
 
 const screenWidth = Dimensions.get('window').width;
 
-export default function App() {
+export default function SignUp() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [checked, setChecked] = useState(true);
   const toggleCheckbox = () => setChecked(!checked);
@@ -42,13 +42,14 @@ export default function App() {
     <Text style={styles.text}>Create Your Account!</Text>     
     <View>
     <Image
-      source={require('./assets/img/facebook.png')}
+      // source={require('../assets/img/facebook.png')}
+      source={require('../assets/img/facebook.png')}
       style={styles.social }
     />
   </View>
     <View>
     <Image
-      source={require('./assets/img/google.png')}
+      source={require('../assets/img/google.png')}
       style={styles.social }
     />
   </View>

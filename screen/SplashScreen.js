@@ -1,22 +1,23 @@
 import { StyleSheet,StatusBar,Pressable, Dimensions, Image, Text, View, SafeAreaView, TouchableOpacity, } from 'react-native';
-import React from 'react'
+import React from 'react';
+
 
 const screenWidth = Dimensions.get('window').width;
 
 
-const App = () => {
+const SplashScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>    
      <View style={styles.person}>
       <View style={styles.heading}>
        <Text style={styles.headText}>Silent </Text>
        <Image
-       source={require('./assets/img/diamond.png')}
+       source={require('../assets/img/diamond.png')}
        style={styles.logo}/>
        <Text style={styles.headText}> Moon</Text>
      </View>   
     <Image
-      source={require('./assets/img/person.png')}
+      source={require('../assets/img/person.png')}
       />
     </View>
     
@@ -27,14 +28,16 @@ const App = () => {
     </View>
 
     <View style={styles.buttonContainer}>
-    <TouchableOpacity style={styles.button}>            
+    <TouchableOpacity style={styles.button}
+    onPress={() => navigation.navigate("SignUp")}>            
     <Text style={styles.buttonText}>SIGN UP</Text>
     </TouchableOpacity>
     </View>
   
     <View style={styles.signUpQuestion}>
     <Text style={styles.miniBodyText}>ALREADY HAVE AN ACCOUNT?</Text>
-    <Text style={styles.signUp}> LOG IN</Text>
+    <Text style={styles.signUp}
+    onPress={() => navigation.navigate("SignIn")}> LOG IN</Text>
     </View>
 
     </SafeAreaView>
@@ -104,4 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App
+export default SplashScreen
