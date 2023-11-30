@@ -2,12 +2,12 @@ import { View, Text } from 'react-native';
 import React from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './screen/SplashScreen';
 import SignIn from './screen/SignIn';
 import SignUp from './screen/SignUp';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const App = () => {
   return (
