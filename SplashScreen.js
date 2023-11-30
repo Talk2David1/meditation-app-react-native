@@ -98,11 +98,9 @@ const styles = StyleSheet.create({
     color: '#8E97FD'
   },
   signUpQuestion: {
-    // flex : 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 20,
-    
+    marginTop: 20,    
   },
 });
 
